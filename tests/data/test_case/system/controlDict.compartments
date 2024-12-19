@@ -1,0 +1,234 @@
+
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format          ascii;
+    class           dictionary;
+    location        "system";
+    object          controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     multiphaseEulerFoam;
+startFrom       latestTime;
+startTime       0;
+stopAt          endTime;
+endTime         90;
+deltaT          1;
+writeControl    adjustableRunTime;
+writeInterval   1;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   7;
+runTimeModifiable yes;
+
+functions
+{
+#includeFunc writeCellVolumes()
+
+readFields
+{
+    functionObjectLibs ( "libfieldFunctionObjects.so" );
+    type readFields;
+    fields (V alphaMean.air epsilonMean.water kLa tau_s);
+}
+        
+
+    volAvg_h0r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     false;
+        writeToFile     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r0_zone;
+        operation       volAverage;
+
+        fields          (alphaMean.air epsilonMean.water kLa tau_s);
+    }
+    
+    tau_h0r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r0_zone;
+        operation       none;
+
+        fields          (tau_s);
+    }
+    
+    volumes_h0r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeToFile     false;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r0_zone;
+        operation       none;
+
+        fields          (V);
+    }
+    
+    volAvg_h0r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     false;
+        writeToFile     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r1_zone;
+        operation       volAverage;
+
+        fields          (alphaMean.air epsilonMean.water kLa tau_s);
+    }
+    
+    tau_h0r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r1_zone;
+        operation       none;
+
+        fields          (tau_s);
+    }
+    
+    volumes_h0r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeToFile     false;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h0r1_zone;
+        operation       none;
+
+        fields          (V);
+    }
+    
+    volAvg_h1r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     false;
+        writeToFile     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r0_zone;
+        operation       volAverage;
+
+        fields          (alphaMean.air epsilonMean.water kLa tau_s);
+    }
+    
+    tau_h1r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r0_zone;
+        operation       none;
+
+        fields          (tau_s);
+    }
+    
+    volumes_h1r0
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeToFile     false;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r0_zone;
+        operation       none;
+
+        fields          (V);
+    }
+    
+    volAvg_h1r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     false;
+        writeToFile     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r1_zone;
+        operation       volAverage;
+
+        fields          (alphaMean.air epsilonMean.water kLa tau_s);
+    }
+    
+    tau_h1r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r1_zone;
+        operation       none;
+
+        fields          (tau_s);
+    }
+    
+    volumes_h1r1
+    {
+        type            volFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+
+        writeFields     true;
+        writeToFile     false;
+        writeControl    writeTime;
+
+        regionType      cellZone;
+        name            h1r1_zone;
+        operation       none;
+
+        fields          (V);
+    }
+    
+}

@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "of-compartments"
+version = "0.1.0"
+description = "Creates compartments from OpenFOAM bioreactor simulations and solves cell growth models in the compartments."
+authors = ["Kira Kiviat <kkiviat@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+matplotlib = "^3.9.3"
+pandas = "^2.2.3"
+numpy = "^2.1.3"
+scipy = "^1.14.1"
+pyfoam = "^2023.7"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+of_create_compartments = "of_compartments.applications.create_compartments:main"
+of_clone_case = "of_compartments.applications.clone_case:main"
+of_view_compartments = "of_compartments.applications.view_compartment_data:main"

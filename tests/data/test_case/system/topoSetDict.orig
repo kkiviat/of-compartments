@@ -1,0 +1,430 @@
+
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+
+{
+    name    h0r0;
+    type    cellSet;
+    action  new;
+
+    source  cylinderAnnulusToCell;
+    p1 (0.0 0 0.0);
+    p2 (0.0 1.0 0.0);
+    innerRadius 0;
+    outerRadius 0.1;
+}
+
+{
+    name        h0r0_zone;
+    type        cellZoneSet;
+    action      new;
+
+    source      setToCellZone;
+    sourceInfo
+    {
+        set   h0r0;
+    }
+}
+
+{
+    name    h0r1;
+    type    cellSet;
+    action  new;
+
+    source  cylinderAnnulusToCell;
+    p1 (0.0 0 0.0);
+    p2 (0.0 1.0 0.0);
+    innerRadius 0.1;
+    outerRadius 0.6;
+}
+
+{
+    name        h0r1_zone;
+    type        cellZoneSet;
+    action      new;
+
+    source      setToCellZone;
+    sourceInfo
+    {
+        set   h0r1;
+    }
+}
+
+{
+    name    h1r0;
+    type    cellSet;
+    action  new;
+
+    source  cylinderAnnulusToCell;
+    p1 (0.0 1.0 0.0);
+    p2 (0.0 1.4 0.0);
+    innerRadius 0;
+    outerRadius 0.1;
+}
+
+{
+    name        h1r0_zone;
+    type        cellZoneSet;
+    action      new;
+
+    source      setToCellZone;
+    sourceInfo
+    {
+        set   h1r0;
+    }
+}
+
+{
+    name    h1r1;
+    type    cellSet;
+    action  new;
+
+    source  cylinderAnnulusToCell;
+    p1 (0.0 1.0 0.0);
+    p2 (0.0 1.4 0.0);
+    innerRadius 0.1;
+    outerRadius 0.6;
+}
+
+{
+    name        h1r1_zone;
+    type        cellZoneSet;
+    action      new;
+
+    source      setToCellZone;
+    sourceInfo
+    {
+        set   h1r1;
+    }
+}
+
+{
+    name        boundary_h0r0_h0r1;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r0;
+      option all;
+    }
+}
+{
+    name        boundary_h0r0_h0r1;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r1;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h0r0_h0r1_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h0r0_h0r1;
+        cellSet h0r0;
+    }
+}
+
+{
+    name        boundary_h0r0_h1r0;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r0;
+      option all;
+    }
+}
+{
+    name        boundary_h0r0_h1r0;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r0;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h0r0_h1r0_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h0r0_h1r0;
+        cellSet h0r0;
+    }
+}
+
+{
+    name        boundary_h0r0_h1r1;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r0;
+      option all;
+    }
+}
+{
+    name        boundary_h0r0_h1r1;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r1;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h0r0_h1r1_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h0r0_h1r1;
+        cellSet h0r0;
+    }
+}
+
+{
+    name        boundary_h0r1_h1r0;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r1;
+      option all;
+    }
+}
+{
+    name        boundary_h0r1_h1r0;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r0;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h0r1_h1r0_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h0r1_h1r0;
+        cellSet h0r1;
+    }
+}
+
+{
+    name        boundary_h0r1_h1r1;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h0r1;
+      option all;
+    }
+}
+{
+    name        boundary_h0r1_h1r1;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r1;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h0r1_h1r1_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h0r1_h1r1;
+        cellSet h0r1;
+    }
+}
+
+{
+    name        boundary_h1r0_h1r1;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r0;
+      option all;
+    }
+}
+{
+    name        boundary_h1r0_h1r1;
+    type        faceSet;
+    action      subset;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r1;
+      option all;
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h1r0_h1r1_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h1r0_h1r1;
+        cellSet h1r0;
+    }
+}
+
+{
+    name        boundary_h1r0_top;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r0;
+      option all;
+    }
+}
+{
+    name    boundary_h1r0_top;
+    type    faceSet;
+    action  subset;
+
+    source  cylinderToFace;
+    p1 (0.0 1.3985999999999998 0.0);
+    p2 (0.0 2.8 0.0);
+    radius 0.1;
+}
+{
+    name        boundary_h1r0_top;
+    type        faceSet;
+    action      subset;
+
+    source normalToFace;
+    sourceInfo
+    {
+        normal (0 1 0);     // Vector
+        cos     0.1;       // Tolerance (max cos of angle)
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h1r0_top_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h1r0_top;
+        cellSet h1r0;
+    }
+}
+
+{
+    name        boundary_h1r1_top;
+    type        faceSet;
+    action      new;
+
+    source      cellToFace;
+    sourceInfo {
+      set h1r1;
+      option all;
+    }
+}
+{
+    name    boundary_h1r1_top;
+    type    faceSet;
+    action  subset;
+
+    source  cylinderToFace;
+    p1 (0.0 1.3985999999999998 0.0);
+    p2 (0.0 2.8 0.0);
+    radius 0.6;
+}
+{
+    name        boundary_h1r1_top;
+    type        faceSet;
+    action      subset;
+
+    source normalToFace;
+    sourceInfo
+    {
+        normal (0 1 0);     // Vector
+        cos     0.1;       // Tolerance (max cos of angle)
+    }
+}
+// Convert faceSet to faceZone
+{
+    name        boundary_h1r1_top_zone;
+    type        faceZoneSet;
+    action      new;
+
+    source setsToFaceZone;
+    sourceInfo
+    {
+        faceSet boundary_h1r1_top;
+        cellSet h1r1;
+    }
+}
+
+);
+
+// ************************************************************************* //

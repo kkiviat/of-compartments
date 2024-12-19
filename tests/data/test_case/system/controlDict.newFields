@@ -1,0 +1,105 @@
+
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format          ascii;
+    class           dictionary;
+    location        "system";
+    object          controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     multiphaseEulerFoam;
+startFrom       latestTime;
+startTime       0;
+stopAt          endTime;
+endTime         90;
+deltaT          1;
+writeControl    adjustableRunTime;
+writeInterval   1;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   7;
+runTimeModifiable yes;
+
+functions
+{
+
+    
+readFields
+{
+    functionObjectLibs ( "libfieldFunctionObjects.so" );
+    type readFields;
+    fields (V epsilonMean.water alphaMean.air);
+}
+        
+    
+tau_s
+{
+    functionObjectLibs ( "libutilityFunctionObjects.so" );
+    type            coded;
+
+    codeOptions
+    #{
+        -I$(LIB_SRC)/meshTools/lnInclude
+    #};
+
+    codeExecute
+    #{
+        const volScalarField& eps
+            (
+            mesh().lookupObject<volScalarField>("epsilonMean.water")
+            );
+
+        volScalarField tau_s(2.5 * 0.0007 * pow(eps / (6 * (0.0007/993)), 0.5));
+        tau_s.rename("tau_s");
+        tau_s.write();
+    #};
+}
+    
+    
+kLa
+{
+    functionObjectLibs ( "libutilityFunctionObjects.so" );
+    type            coded;
+
+    codeOptions
+    #{
+        -I$(LIB_SRC)/meshTools/lnInclude
+    #};
+
+    codeExecute
+    #{
+        const volScalarField& eps
+            (
+            mesh().lookupObject<volScalarField>("epsilonMean.water")
+            );
+        const volScalarField& alphaAir
+            (
+            mesh().lookupObject<volScalarField>("alphaMean.air")
+            );
+        const volScalarField& p
+            (
+            mesh().lookupObject<volScalarField>("p")
+            );
+
+        volScalarField b_d(0.004 * pow(100000.0 / p, 1/3));
+        volScalarField a(6 * alphaAir / 0.004);
+        volScalarField kL(3600 * 2 * pow(2e-09/M_PI, 0.5) * pow(eps * 993/0.0007, 0.25));
+        volScalarField kLa(kL * a);
+        kLa.rename("kLa");
+        kLa.write();
+    #};
+}
+    
+    
+}
