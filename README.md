@@ -35,7 +35,7 @@ pip install -e <path_to_of-compartments>
 
 # Openfoam case requirements
 
-This is designed to work with cases similar to those generated in <link>, which uses multiphaseEulerFoam in OpenFOAM 10.
+This is designed to work with cases similar to those generated in https://github.com/kkiviat/of-bioreactors, which uses multiphaseEulerFoam in OpenFOAM 10.
 
 The openfoam case is expected to have certain averaged fields written by function objects:
 - epsilonMean.water
