@@ -2,6 +2,11 @@
 
 This package has two main parts: a script to convert a OpenFOAM bioreactor simulation results into a set of compartment data, and methods that support simulating cell growth models in those compartments, incorporating different cell damage models.
 
+This code was used in my master's thesis:
+> Kiviat, K. L. (2024). Integration of CFD Bioreactor Models with Cell Growth Models for the Scale-Up of Cultivated Meat. UC Davis. ProQuest ID: Kiviat_ucdavis_0029M_23545. Merritt ID: ark:/13030/m5fs1dmr. Retrieved from https://escholarship.org/uc/item/1kq0r745
+
+along with the CFD configuration at https://github.com/kkiviat/of-bioreactors.
+
 # Requirements
 
 The compartment generation part of this code requires OpenFOAM, Paraview, and PyFoam. It can be run using [this Docker container](https://hub.docker.com/repository/docker/kkiviat/openfoam/general), which includes OpenFOAM 10. 
